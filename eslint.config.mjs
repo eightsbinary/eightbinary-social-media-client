@@ -10,9 +10,13 @@ export default [
         sourceType: 'module',
       },
     },
-    files: 'src/**/*.js',
+    files: ['src/**/*.js'],
+    ignores: [
+      '!node_modules/', // unignore `node_modules/` directory
+      'node_modules/*', // ignore its content
+    ],
     rules: {
-      'no-console': 'warn'
+      'no-console': 'warn',
     },
   },
   pluginJs.configs.recommended,
