@@ -10,8 +10,10 @@ export default [
         sourceType: 'module',
       },
     },
-    files: ['src/**/*.js'],
-    rules: {},
+    files: 'src/**/*.js',
+    rules: {
+      'no-console': 'warn'
+    },
   },
   pluginJs.configs.recommended,
 ];
