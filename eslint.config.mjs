@@ -11,12 +11,7 @@ export default [
       },
     },
     files: ['src/**/*.js'],
-    ignores: [
-      '**/*.config.js',
-      '!**/eslint.config.js',
-      '**/*.config.mjs',
-      '!**/eslint.config.mjs',
-    ],
+
     rules: {},
   },
   pluginJs.configs.recommended,
