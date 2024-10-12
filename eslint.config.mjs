@@ -11,7 +11,6 @@ export default [
       },
     },
     files: ['src/**/*.js'],
-
     rules: {},
   },
   pluginJs.configs.recommended,
