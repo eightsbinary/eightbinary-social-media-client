@@ -4,7 +4,7 @@ import pluginJs from '@eslint/js';
 export default [
   {
     languageOptions: {
-      globals: { ...globals.browser },
+      globals: { ...globals.browser, ...globals.jest, ...globals.node },
       parserOptions: {
         ecmaVersion: 2021,
         sourceType: 'module',
@@ -16,7 +16,11 @@ export default [
       'node_modules/*', // ignore its content
     ],
     rules: {
+      'comma-dangle': ['error', 'always-multiline'],
       'no-console': 'warn',
+      'no-unused-vars': 'warn',
+      indent: ['error', 2],
+      quotes: ['error', 'single'],
     },
   },
   pluginJs.configs.recommended,

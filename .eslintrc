@@ -1,3 +1,16 @@
 {
   "extends": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+  },
+  "overrides": [
+    {
+      "env": {
+        "jest": true,
+        "node": true,
+      },
+      "files": ["**/*.spec.js", "**/*.spec.jsx"],
+    },
+  ],
 }

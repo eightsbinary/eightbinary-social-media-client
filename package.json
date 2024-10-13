@@ -6,12 +6,13 @@
   "type": "module",
   "scripts": {
     "build": "sass src/scss:dist/css",
-    "start": "sass --watch src/scss:dist/css & live-server",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "prepare": "husky install",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "start": "sass --watch src/scss:dist/css & live-server",
+    "test": "jest"
   },
   "lint-staged": {
     "**/*.js": [
