@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "prepare": "husky install",
     "pre-commit": "lint-staged",
-    "start": "sass --watch src/scss:dist/css & live-server",
+    "start": "concurrently \"npx sass --watch src/scss:dist/css\" \"live-server\"",
     "test": "jest"
   },
   "lint-staged": {
@@ -40,7 +40,7 @@
     "lint-staged": "^15.2.10",
     "live-server": "^1.2.2",
     "prettier": "3.3.3",
-    "sass": "^1.54.8"
+    "sass": "^1.79.5"
   },
   "dependencies": {
     "bootstrap-dark-5": "^1.1.3"
