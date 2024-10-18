@@ -17,15 +17,23 @@ describe('Authentication', () => {
   describe('login', () => {
     it('should store a token and profile when provided with valid credentials', async () => {
       const mockToken = 'valid_token';
-      const mockProfile = JSON.stringify({
+      const mockProfile = {
         name: 'mockName',
         email: 'mockemail@email.com',
         banner: null,
-        avatar: 'avatarUrl',
-      });
+        avatar:
+          'https://wiki.tripwireinteractive.com/TWIimages/4/47/Placeholder.png',
+      };
       global.fetch.mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve({ accessToken: mockToken }),
+        json: () =>
+          Promise.resolve({
+            name: mockProfile.name,
+            email: mockProfile.email,
+            banner: mockProfile.banner,
+            avatar: mockProfile.avatar,
+            accessToken: mockToken,
+          }),
       });
 
       await login(mockCredentials);
