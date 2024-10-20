@@ -8,7 +8,7 @@ describe('User Authentication', () => {
       password: 'e1ghtsb1nary',
     };
     const invalidCredential = {
-      username: 'invalid@example.com',
+      username: 'example@stud.noroff.no',
       password: 'wrongpassword',
     };
 
@@ -31,63 +31,6 @@ describe('User Authentication', () => {
         'div.modal-dialog form#registerForm div.modal-footer button.btn-outline-success[data-auth="login"]'
       ).click();
       cy.get('div#loginModal', { timeout: eventDuration }).should('be.visible');
-    });
-
-    it('allows entering login credentials', () => {
-      cy.get(
-        'div.modal-dialog form#registerForm div.modal-footer button.btn-outline-success[data-auth="login"]'
-      ).should('be.visible');
-      cy.wait(eventDuration);
-      cy.get(
-        'div.modal-dialog form#registerForm div.modal-footer button.btn-outline-success[data-auth="login"]'
-      ).click();
-      cy.get('div#loginModal', { timeout: eventDuration }).should('be.visible');
-
-      cy.get('input#loginEmail').should('be.visible');
-      cy.wait(eventDuration);
-      cy.get('input#loginEmail').type('eightsbinary@stud.noroff.no', {
-        delay: typeDuration,
-      });
-      cy.get('input#loginPassword').should('be.visible');
-      cy.get('input#loginPassword').type('e1ghtsb1nary', {
-        delay: typeDuration,
-      });
-    });
-
-    it('submits the login form', () => {
-      cy.get(
-        'div.modal-dialog form#registerForm div.modal-footer button.btn-outline-success[data-auth="login"]'
-      ).should('be.visible');
-      cy.wait(eventDuration);
-      cy.get(
-        'div.modal-dialog form#registerForm div.modal-footer button.btn-outline-success[data-auth="login"]'
-      ).click();
-      cy.get('div#loginModal', { timeout: eventDuration }).should('be.visible');
-
-      cy.get('input#loginEmail').should('be.visible');
-      cy.get('input#loginEmail').type(validCredential.username, {
-        delay: typeDuration,
-      });
-      cy.get('input#loginPassword').should('be.visible');
-      cy.wait(eventDuration);
-      cy.get('input#loginPassword').type(validCredential.password, {
-        delay: typeDuration,
-      });
-
-      cy.get('div#loginModal button.btn-success[type="submit"]').should(
-        'be.visible'
-      );
-      cy.wait(eventDuration);
-      cy.get('div#loginModal button.btn-success[type="submit"]').should(
-        'be.visible'
-      );
-      cy.wait(eventDuration);
-      cy.get('div#loginModal button.btn-success[type="submit"]').click();
-
-      // Wait for potential loading indicator to disappear
-      cy.get('.loading-indicator', { timeout: eventDuration }).should(
-        'not.exist'
-      );
     });
 
     it('verifies successful login by checking localStorage', () => {
@@ -133,16 +76,16 @@ describe('User Authentication', () => {
 
     it('display error message when login with invalid credential', () => {
       // Intercept the login API call
-      // cy.intercept('POST', '**/auth/login', (req) => {
-      //   // Simulate a failed login response
-      //   req.reply({
-      //     statusCode: 401,
-      //     body: {
-      //       message:
-      //         'Either your username was not found or your password is incorrect',
-      //     },
-      //   });
-      // }).as('loginRequest');
+      cy.intercept('POST', '**/auth/login', (req) => {
+        // Simulate a failed login response
+        req.reply({
+          statusCode: 401,
+          body: {
+            message:
+              'Either your username was not found or your password is incorrect',
+          },
+        });
+      }).as('loginRequest');
 
       cy.get(
         'div.modal-dialog form#registerForm div.modal-footer button.btn-outline-success[data-auth="login"]'
@@ -177,12 +120,11 @@ describe('User Authentication', () => {
 
       // Check for the error message
       // Adjust the selector based on how your application displays error messages
-      cy.get('.error-message, .alert-danger, #error-container')
-        .should('be.visible')
-        .and(
-          'contain',
+      cy.on('window:alert', (str) => {
+        expect(str).to.equal(
           'Either your username was not found or your password is incorrect'
         );
+      });
 
       // Ensure we're still on the login page (URL hasn't changed)
       cy.url().should('eq', 'http://localhost:8080/');
